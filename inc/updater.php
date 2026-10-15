@@ -44,3 +44,15 @@ if ( $ac_update_vcs && method_exists( $ac_update_vcs, 'enableReleaseAssets' ) ) 
 	$ac_update_vcs->enableReleaseAssets( '/^anchor-framework\.zip$/', \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\Api::REQUIRE_RELEASE_ASSETS );
 }
 unset( $ac_update_token, $ac_update_vcs );
+
+// Releases only. Without this, PUC falls back to tags and then to the `main` branch when it
+// finds no usable release — so a version bump pushed to main (before tagging) would auto-update
+// every site to unreleased code, installed from GitHub's raw source archive (dev files included).
+// Seen on the first 1.2.0 install: a site that checked before the release existed cached `main`.
+add_filter(
+	'puc_vcs_update_detection_strategies-anchor-framework',
+	function ( $strategies ) {
+		$release = \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\Api::STRATEGY_LATEST_RELEASE;
+		return isset( $strategies[ $release ] ) ? array( $release => $strategies[ $release ] ) : array();
+	}
+);

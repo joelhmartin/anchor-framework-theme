@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 — 2026-10-15
+- **Fix:** updates come from GitHub releases ONLY. The updater could fall back to the `main` branch when no release
+  was visible, installing GitHub's raw source archive (dev files included) and, worse, unreleased code if `main`
+  carried a version bump before tagging.
+
 ## 1.2.0 — 2026-10-15
 First versioned release. Consolidates the per-site copies (Smiles of Cary, Princeton Dental, TMJ Therapy Centre
 International, Marathon Restorations, Green Acres, H&H Asphalt, DEKA Dental Lasers) onto one codebase.
