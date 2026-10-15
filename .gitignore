@@ -1,0 +1,20 @@
+.DS_Store
+_heading_backup.json
+
+# DB snapshots — large, not for version control.
+# These contain FULL wp_options dumps including live API keys (ac_ai_settings).
+# Never deploy. Ignore the whole directory, not just *.sql.
+tests/db-snapshots/
+
+# Internal SDD working docs (specs, plans, content backups).
+# Local-only development artifacts — must not ship to a public host.
+docs/superpowers/
+
+# Visual regression screenshots — large, regenerable artifacts
+# pages.txt and baseline-metrics.txt ARE tracked (they stay)
+tests/visual/baseline/
+tests/visual/current/
+tests/visual/diff/
+
+# SDD progress ledger (scratch)
+.superpowers/

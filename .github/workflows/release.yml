@@ -1,0 +1,41 @@
+name: Release
+
+# Push a tag that matches style.css "Version:" (e.g. 1.2.1) to publish a release.
+# Sites update from the anchor-framework.zip asset this builds.
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag matches theme version
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          css=$(grep -m1 -E '^Version:' style.css | awk '{print $2}')
+          php=$(grep -oE "AC_THEME_VERSION', '[^']+'" functions.php | grep -oE "'[^']+'$" | tr -d "'")
+          echo "tag=$tag style.css=$css functions.php=$php"
+          [ "$tag" = "$css" ] && [ "$tag" = "$php" ] || { echo "::error::tag, style.css Version and AC_THEME_VERSION must match"; exit 1; }
+
+      - name: Lint PHP
+        run: find . -name '*.php' -not -path './inc/vendor/*' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: Build anchor-framework.zip
+        run: |
+          stage="$(mktemp -d)/anchor-framework"
+          mkdir -p "$stage"
+          rsync -a --exclude-from=.distignore --exclude='.github' --exclude='bin' --exclude='*.md' ./ "$stage/"
+          (cd "$(dirname "$stage")" && zip -rq "$GITHUB_WORKSPACE/anchor-framework.zip" anchor-framework)
+          unzip -l anchor-framework.zip | tail -1
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: anchor-framework.zip
+          generate_release_notes: true

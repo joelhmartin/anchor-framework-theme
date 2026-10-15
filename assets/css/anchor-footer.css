@@ -1,0 +1,283 @@
+/* anchor-footer.css — DEKA footer + expanding CTA, namespaced (.anchor-*).
+   Footer + CTA rules ported from deka-header-export; layout helpers, badge,
+   responsive, and theme-button layout are inlined here. Reuses the --anchor-*
+   tokens loaded by anchor-header.css (enqueue this with that as a dependency).
+   Buttons in the markup are the theme's .btn-default, NOT .anchor-btn. */
+
+/* ===== Layout helpers (subset of the export layout.css) ===== */
+.anchor-container { max-width: var(--anchor-container-max); margin-left: auto; margin-right: auto; width: 100%; }
+.anchor-section-pad { padding-left: 1.25rem; padding-right: 1.25rem; position: relative; z-index: 1; }
+.anchor-section { padding-top: var(--anchor-section-py); padding-bottom: var(--anchor-section-py); }
+.anchor-grid { display: grid; gap: 1.5rem; }
+.anchor-grid--2 { grid-template-columns: repeat(1, 1fr); }
+.anchor-grid--5-7 { grid-template-columns: 1fr; }
+
+/* ===== FOOTER (ported: sections.css 1157-1266) ===== */
+.anchor-footer {
+  background: var(--anchor-navy);
+  border-radius: 3rem 3rem 0 0;
+  margin-top: 6rem;
+  position: relative;
+}
+
+.anchor-footer__top {
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.anchor-footer__bottom {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.anchor-footer__brand p {
+  color: var(--deka-ivory);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  max-width: 20rem;
+}
+
+.anchor-footer__contact a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.875rem;
+  transition: color var(--anchor-transition-normal);
+}
+
+.anchor-footer__contact a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.anchor-footer__contact {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.anchor-footer__social {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.anchor-footer__social a {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  transition: all var(--anchor-transition-normal);
+}
+
+.anchor-footer__social a:hover {
+  color: #fff;
+  background: rgba(var(--anchor-brand-500-rgb), 0.2);
+  border-color: rgba(var(--anchor-brand-500-rgb), 0.3);
+}
+
+.anchor-footer__nav-title {
+  font-family: var(--anchor-font-heading);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.anchor-footer__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  transition: color var(--anchor-transition-normal);
+  margin-bottom: 0.625rem;
+}
+
+.anchor-footer__nav-link:hover {
+  color: #fff;
+}
+
+.anchor-footer__copyright {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+}
+
+.anchor-footer__legal {
+  display: flex;
+  gap: 1.5rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+}
+/* ===== FOOTER supplemental (ported: sections.css 1959-1991) ===== */
+/* =======================================================================
+   FOOTER — SUPPLEMENTAL (logo, contact list, nav columns, bottom bar)
+   ======================================================================= */
+
+/* Footer logo image */
+.anchor-footer__logo {
+  height: 2.5rem;
+  width: auto;
+  margin-bottom: 1.25rem;
+}
+
+/* Footer brand name fallback */
+.anchor-footer__brand-name {
+  font-family: var(--anchor-font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: white;
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+/* Footer nav column list reset */
+.anchor-footer__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Footer nav columns grid gap */
+.anchor-footer__nav-columns {
+  gap: 2rem;
+}
+
+/* ===== EXPANDING CTA (ported: sections.css 1465-1517) ===== */
+.anchor-section[data-section-type="cta_band"][data-section-variant="expand"] {
+  position: relative;
+  z-index: 41;
+}
+
+.anchor-cta-expand-card {
+  background: var(--anchor-navy-dark);
+  border-radius: var(--anchor-radius-5xl);
+  padding: 3.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fixed full-viewport background — created and injected by JS */
+.anchor-cta-expand-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1),
+    visibility 0.8s;
+}
+
+.anchor-cta-expand-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.anchor-cta-expand-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 768px) {
+  .anchor-cta-expand-card {
+    padding: 5rem 4rem;
+    min-height: 560px;
+    border-radius: var(--anchor-radius-5xl);
+  }
+}
+
+/* ===== CTA card content (ported: sections.css 2018-2065) ===== */
+.anchor-cta-card__inner {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.anchor-cta-card__heading {
+  font-size: clamp(38px, 4.5vw, 80px);
+  color: #fff;
+}
+
+.anchor-cta-card__accent {
+  display: block;
+  color: var(--anchor-brand-400);
+}
+
+.anchor-cta-card__accent--expand {
+  color: var(--anchor-brand-200);
+  font-size: 1.2em;
+}
+
+.anchor-cta-card__text {
+  color: rgba(255, 255, 255, 1);
+  max-width: 32rem;
+  margin: 1rem auto 0;
+}
+
+.anchor-cta-card__text--expand {
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 32rem;
+  margin: 1.25rem auto 0;
+  line-height: 1.7;
+}
+
+.anchor-cta-card__eyebrow {
+  margin-bottom: 1.25rem;
+}
+
+.anchor-cta-card__eyebrow--expand {
+  margin-bottom: 1.5rem;
+}
+
+.anchor-cta-card__buttons {
+  margin-top: 2rem;
+}
+
+.anchor-cta-card__buttons--expand {
+  margin-top: 2.25rem;
+}
+
+/* ===== Badge (CTA eyebrow), theme-button layout + responsive (inlined) ===== */
+.anchor-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em; }
+.anchor-badge--glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+
+/* Heading accent uses the theme Accent color (the DEKA serif font isn't loaded). */
+.anchor-cta-card__accent--expand { color: var(--accent-color, var(--anchor-brand-200)); }
+/* Two theme .btn-default buttons, centered. */
+.anchor-cta-card__buttons--expand { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+@media (min-width: 640px) {
+  .anchor-grid--2 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 768px) {
+  .anchor-section { padding-top: var(--anchor-section-py-lg); padding-bottom: var(--anchor-section-py-lg); }
+  .anchor-grid--5-7 { grid-template-columns: 5fr 7fr; }
+  .anchor-footer { border-radius: 4rem 4rem 0 0; }
+  .anchor-footer__top { padding-top: 6rem; }
+  .anchor-footer__bottom { padding-bottom: 2.5rem; }
+}

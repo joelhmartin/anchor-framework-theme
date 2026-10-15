@@ -1,0 +1,28 @@
+# Files that must NEVER be included in a deployment/distribution of this theme.
+# Used by `wp dist-archive` and as the canonical rsync-exclude list.
+#
+# rsync usage:
+#   rsync -av --exclude-from=.distignore ./ user@host:/path/to/theme/
+
+.git
+.gitignore
+.distignore
+.DS_Store
+.superpowers/
+
+# DB snapshots: ~373MB of full mysqldumps that include the complete wp_options
+# table, i.e. live third-party API keys. Catastrophic if web-reachable.
+tests/db-snapshots/
+
+# Test tooling and regression artifacts — no runtime purpose.
+tests/
+
+# Internal spec/plan/backup working docs.
+docs/superpowers/
+
+# Scratch/backup files
+_heading_backup.json
+*.sql
+*.tmp
+.tmp-*
+node_modules/

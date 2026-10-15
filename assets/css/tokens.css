@@ -1,0 +1,118 @@
+/* ========================================================================================
+ * tokens.css — CORE DESIGN TOKENS (L1 layer).
+ *
+ * All CSS custom properties for the anchor-dental theme. This file is enqueued before
+ * framework.css and is the single source of truth for color, spacing, shadow, radius,
+ * and transition tokens — plus asset-URL vars so upload paths are defined once.
+ *
+ * Moved verbatim from framework.css (:root blocks, lines 53–117) by Phase 1 refactor.
+ * Do NOT put selector rules here — tokens only.
+ * ======================================================================================== */
+
+/************************************/
+/*** 	 01. Global Variables	  ***/
+/************************************/
+
+:root{
+	--primary-color			: #102F50;
+	--primary-rgb			: 16, 47, 80;
+	--primary-light			: #2C4A6E;
+	--primary-deep			: #0B1A2E;   /* final-CTA background */
+	--footer-bg				: #0B1420;   /* footer background */
+	--ink					: #16191D;   /* gallery bg / base body ink */
+	--secondary-color		: #F4F3F0;   /* warm page background */
+	--text-color			: #52585F;
+	--text-muted			: #6A7178;
+	--accent-color			: #2070C0;
+	--accent-rgb			: 32, 112, 192;
+	--white-color			: #FFFFFF;
+	--divider-color			: rgba(16,47,80,.12);
+	--divider-strong		: rgba(16,47,80,.22);
+	--dark-divider-color	: rgba(255,255,255,.12);
+	--on-dark				: #DBE4EE;
+	--on-dark-muted			: #9FB2C7;
+	--on-dark-accent		: #7FA8D4;
+	--surface-input			: #F8F8F6;
+	--error-color			: rgb(230, 87, 87);
+	--button-color			: #2070C0;
+	--button-hover-color	: #1B62AB;
+	--button-text-color		: #FFFFFF;
+	/* Brand fonts — SINGLE SOURCE OF TRUTH. Set the family here; the files are
+	   loaded by the `ac-gfonts` Google Fonts enqueue in inc/enqueue.php (which
+	   carries the heavy weights this design needs — Raleway 800/900). Declared
+	   directly (NOT via --anchor-font-*) so the admin Site Config Fonts values do
+	   not override the brand: Site Config can only load weights 400;600, so it
+	   cannot serve the heading weights. To change a brand font, edit this line
+	   AND the matching family/weights in the inc/enqueue.php `ac-gfonts` URL. */
+	--default-font			: "Source Sans 3", system-ui, sans-serif;
+	--heading-font			: "Raleway", sans-serif;
+	--mono-font				: "Space Mono", ui-monospace, monospace;
+
+	/* Vertical rhythm for sections (consumed by the .section utilities below and
+	   by the legacy section-name rules). Retune section spacing site-wide here. */
+	--section-space			: 104px; /* default top & bottom */
+	--section-space-md		: 70px;  /* medium bottom step */
+	--section-space-sm		: 50px;  /* compact (common mobile value) */
+	--section-space-xs		: 25px;  /* tight (mobile tops/bottoms) */
+	--section-space-2xs		: 20px;  /* tightest (mobile bottoms) */
+
+	/* Shadows — --shadow-card is the 9× card shadow used across the template. */
+	--shadow-card			: 0px 10px 30px 0px #00000008;
+	--shadow-soft			: 0px 4px 20px 0px #0000000D;
+	--shadow-strong			: 0px 10px 30px 0px #0000001A;
+
+	/* Corner radii (--radius-lg 40px is the dominant brand card/pill radius). */
+	--radius-sm				: 0;
+	--radius-md				: 0;
+	--radius-lg				: 0;
+	--radius-soft			: 8px;     /* optional rounded mode; unused in v1 */
+	--radius-circle			: 50%;
+	--radius-pill			: 9999px;  /* glass nav */
+
+	/* Transition durations. */
+	--transition-base		: 0.3s;
+	--transition-medium		: 0.4s;
+	--transition-slow		: 0.5s;
+
+	/* Asset URLs — single source of truth for all upload-path references in framework.css
+	   and custom.css. Defined once here; consumed via var(--icon-*) / var(--bg-*). */
+	--icon-eyebrow:     url("/wp-content/uploads/2026/06/logo-icon-2.png");
+	--icon-plus:        url("/wp-content/uploads/2026/05/icon-plus-accent.svg");
+	--icon-blockquote:  url("/wp-content/uploads/2026/05/icon-blockquote.svg");
+	--icon-arrow-white: url("/wp-content/uploads/2026/05/arrow-white.svg");
+	--bg-hero-shape:    url("/wp-content/uploads/2026/05/hero-bg.svg");
+	--bg-hero-photo:    url("/wp-content/uploads/2026/06/hero-thumb.jpg");
+	--bg-about-shape:   url("/wp-content/uploads/2026/05/about-image-bg-shape.svg");
+	--bg-experience:    url("/wp-content/uploads/2026/06/about-sadc-header-p-800-crop-bvqVfq.jpg");
+	--bg-expertise:     url("/wp-content/uploads/2026/05/expertise-image-bg.svg");
+	--bg-why-choose:    url("/wp-content/uploads/2026/05/why-choose-us-bg.svg");
+	--bg-testimonial:   url("/wp-content/uploads/2026/05/testimonial-bg.png");
+	--bg-service-header:url("/wp-content/uploads/2026/06/Gilbert.avif");
+
+	/* Type-scale tokens — consumed by primitives.css and any rule that needs a
+	   named size rather than a hard-coded px value. */
+	--fs-eyebrow:     12px;
+	--fs-subtitle:    19px;
+	--fs-subtitle-sm: 17px;
+	--fs-title:       46px;
+	--fs-display:     80px;
+}
+
+/* ----------------------------------------------------------------------------------------
+   RESPONSIVE SPACING — shrink the section-space scale at the theme's 991px breakpoint.
+   Because every section-name padding rule (and the .section utilities) consume these
+   tokens, this single override drives the mobile vertical rhythm for the whole site —
+   theme pages AND Anchor blocks. Retune mobile spacing here. Verified to reproduce the
+   previous hand-tuned per-section mobile padding exactly (the lone outlier, .our-doctors,
+   keeps a literal override in the 991 block below).
+   Desktop values are unchanged, so desktop rendering is identical.
+   ---------------------------------------------------------------------------------------- */
+@media (max-width: 991px){
+	:root{
+		--section-space    : 64px;  /* desktop 104 */
+		--section-space-md : 20px;  /* desktop 70  */
+		--section-space-sm : 25px;  /* desktop 50  */
+		--section-space-2xs: 0;     /* desktop 20  */
+		/* --section-space-xs stays 25px — only the new .section--*-xs modifiers consume it */
+	}
+}

@@ -1,0 +1,822 @@
+/* ========================================================================================
+ * custom.css — SITE PERSONALIZATION LAYER (loads last, after framework.css).
+ *
+ * Keep this thin: only site-specific brand additions and overrides. The design
+ * tokens, .section system, and template/component CSS live in framework.css.
+ * New sections should use the .section / .section--* utilities (defined in
+ * framework.css) rather than baking spacing or colors into per-section names.
+ * ======================================================================================== */
+
+/* ============================================================
+   Blog enhancements: post meta, Latest News slider, single post
+   ============================================================ */
+
+/* --- Post card meta (date) --- */
+.post-item-meta{
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-color);
+	letter-spacing: 0.02em;
+}
+.post-item-meta .post-date i{
+	color: var(--accent-color);
+	margin-right: 6px;
+}
+
+/* --- Latest News slider (home) --- */
+.our-blog .blog-slider{
+	position: relative;
+}
+.our-blog .blog-slider .swiper{
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+.our-blog .blog-slider .swiper-slide{
+	height: auto;
+}
+.our-blog .blog-slider .swiper-slide .blog-item{
+	height: 100%;
+}
+.blog-slider-nav{
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	margin-top: 36px;
+}
+.blog-slider-nav button{
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	border: 1px solid var(--divider-color);
+	background: var(--white-color);
+	color: var(--primary-color);
+	font-size: 16px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease-in-out;
+}
+.blog-slider-nav button:hover{
+	background: var(--button-color);
+	border-color: var(--button-color);
+	color: var(--button-text-color);
+}
+.blog-slider-nav button.swiper-button-disabled{
+	opacity: 0.4;
+	cursor: default;
+}
+
+/* --- Single blog post --- */
+.blog-single-page{
+	padding: 80px 0;
+}
+.blog-single-meta{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin-bottom: 24px;
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--text-color);
+}
+.blog-single-meta i{
+	color: var(--accent-color);
+	margin-right: 6px;
+}
+.blog-single-meta a{
+	color: var(--text-color);
+}
+.blog-single-meta a:hover{
+	color: var(--accent-color);
+}
+.blog-single-image{
+	margin-bottom: 36px;
+	border-radius: 20px;
+	overflow: hidden;
+}
+.blog-single-image img{
+	width: 100%;
+	height: auto;
+	display: block;
+}
+.blog-single-body{
+	color: var(--text-color);
+	font-size: 17px;
+	line-height: 1.75;
+}
+.blog-single-body h2{
+	font-size: 32px;
+	margin: 36px 0 16px;
+	color: var(--primary-color);
+}
+.blog-single-body h3{
+	font-size: 24px;
+	margin: 30px 0 14px;
+	color: var(--primary-color);
+}
+.blog-single-body p{
+	margin-bottom: 20px;
+}
+.blog-single-body a{
+	color: var(--accent-color);
+	text-decoration: underline;
+}
+.blog-single-body ul,
+.blog-single-body ol{
+	margin: 0 0 20px 20px;
+}
+.blog-single-body li{
+	margin-bottom: 8px;
+}
+.blog-single-body img{
+	max-width: 100%;
+	height: auto;
+	border-radius: 14px;
+	margin: 10px 0 24px;
+}
+.blog-single-back{
+	margin-top: 40px;
+}
+.blog-single-back a i{
+	margin-right: 8px;
+}
+.blog-single-nav{
+	margin-top: 50px;
+	padding-top: 26px;
+	border-top: 1px solid var(--divider-color);
+}
+.blog-single-nav a{
+	display: inline-block;
+	color: var(--primary-color);
+	font-weight: 700;
+}
+.blog-single-nav a span{
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--accent-color);
+	margin-bottom: 4px;
+}
+.blog-single-nav a:hover{
+	color: var(--accent-color);
+}
+
+@media only screen and (max-width: 767px){
+	.blog-single-page{ padding: var(--section-space-sm) 0; }
+	.blog-single-body{ font-size: 16px; }
+	.blog-single-body h2{ font-size: 26px; }
+	.blog-single-body h3{ font-size: 21px; }
+}
+
+/* ============================================================
+   Blog typography weight + slider image guard + contact sidebar
+   ============================================================ */
+
+/* --- Heavier headings for blog content --- */
+.blog-single-body h2,
+.blog-single-body h3,
+.blog-single-body h4{
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+.blog-single-body h2{ line-height: 1.2; }
+.blog-single-body h3{ line-height: 1.25; }
+/* --- Home slider: fixed SQUARE image container, image contained --- */
+.our-blog .blog-slider .swiper-slide{
+	display: flex;
+	height: auto;
+}
+.our-blog .blog-slider .swiper-slide .blog-item{
+	width: 100%;
+	margin-bottom: 0;
+	height: 100%;
+	align-items: center;
+}
+/* Override the base rules that tie the image box to the full card height,
+   which let it grow unbounded. The image box is a fixed square, inset from
+   the card edges with matching padding and fully rounded corners. */
+.our-blog .blog-slider .blog-item .post-featured-image,
+.our-blog .blog-slider .blog-item .post-featured-image figure,
+.our-blog .blog-slider .blog-item .post-featured-image a{
+	height: auto;
+}
+.our-blog .blog-slider .blog-item .post-featured-image{
+	padding: 20px;
+}
+.our-blog .blog-slider .blog-item .post-featured-image a,
+.our-blog .blog-slider .blog-item .post-featured-image img{
+	border-radius: 24px;
+}
+.our-blog .blog-slider .blog-item .post-featured-image img{
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	max-height: none;
+	object-fit: cover;
+}
+.our-blog .blog-slider .post-item-content p{
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+/* --- Blog "Learn More" links: use the site's rotated arrow (not the +) --- */
+.our-blog .post-readmore-btn a,
+.page-blog .post-readmore-btn a,
+.blog-slider .post-readmore-btn a{
+	padding-right: 24px;
+}
+.our-blog .post-readmore-btn a::before,
+.page-blog .post-readmore-btn a::before,
+.blog-slider .post-readmore-btn a::before{
+	content: "\f061"; /* Font Awesome: fa-arrow-right */
+	font-family: "Font Awesome 6 Free";
+	font-weight: 900;
+	font-size: 14px;
+	line-height: 1;
+	color: currentColor;
+	-webkit-font-smoothing: antialiased;
+	width: auto;
+	height: auto;
+	border-radius: 0;
+	background: none;
+	/* Rotated -45deg so it points to the upper-right, matching .btn-default. */
+	transform: translate(0, -50%) rotate(-45deg);
+}
+.our-blog .post-readmore-btn a:hover::before,
+.page-blog .post-readmore-btn a:hover::before,
+.blog-slider .post-readmore-btn a:hover::before{
+	/* Straighten to point directly right on hover, like the buttons. */
+	transform: translate(0, -50%) rotate(0deg);
+	filter: none;
+}
+
+/* --- Reusable contact sidebar (blog single + service detail) --- */
+.blog-sidebar,
+.service-sidebar .contact-sidebar,
+.contact-sidebar{
+	position: sticky;
+	top: 100px;
+}
+.contact-sidebar{
+	background-color: var(--secondary-color);
+	border: 1px solid var(--divider-color);
+	border-radius: 30px;
+	padding: 34px;
+}
+.contact-sidebar-logo{
+	margin-bottom: 24px;
+	padding-bottom: 22px;
+	border-bottom: 1px solid var(--divider-color);
+}
+.contact-sidebar-logo img{
+	max-width: 120px;
+	width: 100%;
+	height: auto;
+}
+.contact-sidebar-info .content-subtitle{
+	margin-bottom: 22px;
+	color: var(--primary-color);
+}
+.contact-sidebar-list{
+	list-style: none;
+	margin:0px;
+	padding: 0;
+}
+.contact-sidebar-list li{
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 14px 0;
+	border-bottom: 1px solid var(--divider-color);
+}
+.contact-sidebar-list li:last-child{
+	border-bottom: 0;
+}
+.contact-sidebar-list li > i{
+	flex: 0 0 38px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: var(--white-color);
+	color: var(--accent-color);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+}
+.contact-sidebar-label{
+	display: block;
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-color);
+	margin-bottom: 2px;
+	line-height: 1;
+}
+.contact-sidebar-list li a{
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--primary-color);
+	word-break: break-word;
+	transition: color 0.3s ease-in-out;
+}
+.contact-sidebar-list li a:hover{
+	color: var(--accent-color);
+}
+/* Matches the site-wide form-card treatment: square corners, hairline border,
+   soft shadow. See .ac-form-card in home-services.css. */
+.contact-sidebar-form{
+	padding: 24px;
+	background: #fff;
+	border: 1px solid rgba(8, 20, 36, .10);
+	border-radius: 0;
+	box-shadow: 0 6px 24px rgba(8, 20, 36, .07);
+}
+.contact-sidebar-email a{
+	font-size: 15px;
+}
+
+/* When the contact sidebar sits inside the service-detail .service-sidebar
+   wrapper, let the inner box own the sticky + styling. */
+.service-sidebar > .contact-sidebar{
+	position: static;
+}
+
+@media only screen and (max-width: 991px){
+	.blog-sidebar,
+	.contact-sidebar{
+		position: static;
+		top: auto;
+		margin-top: 40px;
+	}
+}
+
+/* ============================================================
+   Blog filter bar: search + category selector
+   ============================================================ */
+.blog-filter-bar{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+	margin-bottom: 50px;
+}
+.blog-search-form{
+	position: relative;
+	flex: 1 1 320px;
+	max-width: 520px;
+}
+.blog-search-form input[type="search"]{
+	width: 100%;
+	height: 56px;
+	padding: 0 56px 0 24px;
+	border: 1px solid var(--divider-color);
+	border-radius: 9999px;
+	background: var(--white-color);
+	color: var(--primary-color);
+	font-family: var(--default-font);
+	font-size: 16px;
+	transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.blog-search-form input[type="search"]:focus{
+	outline: none;
+	border-color: var(--accent-color);
+	box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+}
+.blog-search-form button{
+	position: absolute;
+	top: 50%;
+	right: 6px;
+	transform: translateY(-50%);
+	width: 44px;
+	height: 44px;
+	border: 0;
+	border-radius: 50%;
+	background: var(--button-color);
+	color: var(--button-text-color);
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.3s ease-in-out;
+}
+.blog-search-form button:hover{
+	background: var(--button-hover-color);
+}
+.blog-category-filter{
+	position: relative;
+	flex: 0 0 auto;
+}
+.blog-category-filter select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	height: 56px;
+	min-width: 220px;
+	padding: 0 46px 0 24px;
+	border: 1px solid var(--divider-color);
+	border-radius: 9999px;
+	background: var(--white-color);
+	color: var(--primary-color);
+	font-family: var(--default-font);
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: border-color 0.3s ease-in-out;
+}
+.blog-category-filter select:focus{
+	outline: none;
+	border-color: var(--accent-color);
+}
+.blog-category-caret{
+	position: absolute;
+	top: 50%;
+	right: 22px;
+	transform: translateY(-50%);
+	pointer-events: none;
+	font-size: 13px;
+	color: var(--accent-color);
+}
+@media only screen and (max-width: 575px){
+	.blog-filter-bar{
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.blog-search-form,
+	.blog-category-filter,
+	.blog-category-filter select{
+		max-width: none;
+		width: 100%;
+	}
+}
+
+/* ============================================================
+   Stats row — review / offer highlights (used on /implants)
+   ============================================================ */
+.stats-row{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 12px 30px rgba(11, 11, 56, .10);
+	padding: 24px 8px;
+	margin: 30px 0;
+	max-width: 560px;
+}
+.stats-row .stat-item{
+	flex: 1;
+	min-width: 110px;
+	text-align: center;
+	padding: 6px 18px;
+}
+.stats-row .stat-item + .stat-item{
+	border-left: 1px solid #ececf5;
+}
+.stats-row .stat-value{
+	display: block;
+	font-size: 36px;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--accent-color);
+	margin-bottom: 8px;
+}
+.stats-row .stat-label{
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: #6a6a80;
+}
+@media only screen and (max-width: 575px){
+	.stats-row{ max-width: 100%; }
+	.stats-row .stat-item{ flex: 0 0 100%; padding: 14px 18px; }
+	.stats-row .stat-item + .stat-item{ border-left: 0; border-top: 1px solid #ececf5; }
+}
+
+
+/* ============================================================
+   Offer advantage cards — centered responsive flex grid (/implants)
+   Wraps 3 -> 2 -> 1 and always stays centered (flex-wrap + justify-center,
+   cards capped by min/max-width so a lone wrapped card centers, not stretches).
+   ============================================================ */
+.offer-cards{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 28px;
+	margin-top: 44px;
+}
+.offer-card{
+	flex: 1 1 280px;
+	min-width: 280px;
+	max-width: 360px;
+	background: #fff;
+	border: 1px solid #efeff7;
+	border-radius: 20px;
+	padding: 38px 30px;
+	text-align: center;
+	box-shadow: 0 14px 34px rgba(11, 11, 56, .07);
+	transition: transform .25s ease, box-shadow .25s ease;
+}
+.offer-card:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 24px 46px rgba(11, 11, 56, .12);
+}
+.offer-card__icon{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 70px;
+	height: 70px;
+	margin-bottom: 22px;
+	border-radius: 50%;
+	background: rgba(94, 94, 238, .10);
+	color: var(--accent-color);
+	font-size: 28px;
+}
+.offer-card__title{
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 1.3;
+	margin: 0 0 12px;
+	color: var(--primary-color);
+}
+.offer-card p{
+	margin: 0;
+	font-size: 16px;
+}
+@media only screen and (max-width: 575px){
+	.offer-card{ min-width: 100%; max-width: 100%; padding: 30px 24px; }
+}
+
+
+/* ============================================================
+   CTA offer section — transparent-primary gradient overlay + white text
+   (the "Hurry and do not miss out on our dental implant offer!" section)
+   ============================================================ */
+.cta-section{
+	position: relative;
+	isolation: isolate;
+}
+.cta-section::before{
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background: linear-gradient(120deg,
+		rgba(var(--primary-rgb), .92) 0%,
+		rgba(var(--primary-rgb), .62) 100%);
+}
+.cta-section > .container{
+	position: relative;
+	z-index: 1;
+}
+.cta-section .section-title :is(.eyebrow-text, .content-header, h1, h2, h3, h4, h5, h6, p){
+	color: var(--white-color);
+}
+
+
+/* ============================================================
+   CTA offer form — square white container + little header (/implants)
+   Matches the site-wide form-card treatment (.ac-form-card).
+   ============================================================ */
+.cta-form-wrap{
+	background: #fff;
+	border: 1px solid rgba(255, 255, 255, .16);
+	border-radius: 0;
+	padding: 36px 34px;
+	box-shadow: 0 24px 55px rgba(0, 0, 0, .30);
+}
+.cta-form-title{
+	font-family: var(--heading-font, inherit);
+	font-size: 26px;
+	font-weight: 600;
+	line-height: 1.25;
+	text-align: center;
+	color: var(--primary-color);
+	margin-bottom: 10px;
+}
+.cta-form-intro{
+	text-align: center;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--muted-color, #6A7178);
+	margin-bottom: 22px;
+}
+.cta-form-disclaimer{
+	margin: 18px 0 0;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #8D9499;
+}
+@media only screen and (max-width: 575px){
+	.cta-form-wrap{ padding: 28px 22px; }
+}
+
+
+
+/* full-height hero review box */
+.cta-item{
+	height: 100%;
+}
+
+
+/* Clickable mega-menu column titles (Services nav) */
+.anchor-nav__mega-title--link{ text-decoration: none; color: inherit; display: block; }
+.anchor-nav__mega-title--link:hover{ color: var(--accent-color); }
+
+
+/* Service CTA: centered call-to-action column (vertically centered via row align-items-center) */
+.cta-text-col{ text-align: center; }
+.cta-text-col .stats-row{ margin-left: auto; margin-right: auto; }
+.cta-call-btn{ margin: 24px 0 4px; }
+
+
+/* Emergency page: checklists + tinted section */
+.ac-section--tint{ background: var(--secondary-color); }
+.ac-check-list{ list-style: none; margin: 0 0 24px; padding: 0; }
+.ac-check-list li{ position: relative; padding-left: 32px; margin-bottom: 12px; line-height: 1.5; }
+.ac-check-list li::before{ content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--accent-color); position: absolute; left: 0; top: 3px; font-size: 13px; }
+.ac-check-list--center{ display: inline-block; text-align: left; }
+.ac-check-list--grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 30px; }
+@media (max-width: 600px){ .ac-check-list--grid{ grid-template-columns: 1fr; } }
+
+
+/* Constrain + center the hero intro paragraph */
+.hero-content .section-title p { max-width: 600px; margin: auto; }
+
+
+/* Emergency "What Are Dental Emergencies" — tight small-card question grid */
+.ac-q-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.ac-q-card{ background: var(--white-color); border: 1px solid var(--divider-color); border-radius: 14px; padding: 18px; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--primary-color); box-shadow: 0 6px 18px rgba(11, 11, 56, .05); }
+.ac-q-note{ margin-top: 20px; font-style: italic; color: var(--text-color); }
+@media (max-width: 600px){
+	.ac-q-grid{ gap: 10px; }
+	.ac-q-card{ padding: 14px; font-size: 14px; }
+}
+
+
+/* Dark ghost button variant — outlined/dark text, for light backgrounds
+   (mirror of .btn-highlighted which is white-on-dark). */
+.btn-default.btn-ghost-dark{
+	background-color: transparent;
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	padding: 18px 60px 18px 30px;
+}
+.btn-default.btn-ghost-dark:hover{
+	background-color: var(--primary-color);
+	color: var(--white-color);
+}
+
+/* About Us section — value-props (Classic Dental Gilbert): dark text + heading under-padding */
+.about-us .about-us-content .section-title h2.content-header {
+	margin-bottom: 32px;
+}
+.about-us .why-choose-list {
+	margin-top: 8px;
+}
+.about-us .why-choose-item-content h3.content-subtitle {
+	color: var(--primary-color, #102d52);
+}
+.about-us .why-choose-item-content p {
+	color: var(--text-color, #50607a);
+}
+
+/* =======================================================================
+   SERVICE CARDS (ac-card) — reusable grid; desktop 3-up, mobile single-open
+   animated accordion (JS in anchor-nav.js sets max-height to scrollHeight).
+   ======================================================================= */
+.ac-services-wrap { padding: 80px 0; }
+.ac-services-wrap .section-title { margin-bottom: 40px; }
+.ac-services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.ac-card { position: relative; background: var(--white-color, #fff); border: 1px solid var(--divider-color, #e3eef7); border-radius: 18px; overflow: hidden; box-shadow: 0 14px 30px rgba(var(--primary-rgb, 14, 51, 84), .06); }
+.ac-card__summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 24px; margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--primary-color, #0e3354); cursor: pointer; }
+.ac-card__arrow { width: 12px; height: 12px; border-right: 2px solid var(--accent-color, #2d95eb); border-bottom: 2px solid var(--accent-color, #2d95eb); transform: rotate(45deg); transition: transform .35s ease; flex: 0 0 auto; }
+.ac-card__panel { padding: 0 24px 24px; }
+.ac-card__media { display: block; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+.ac-card__media img { display: block; width: 100%; height: 200px; object-fit: cover; }
+.ac-card__desc { margin: 0 0 16px; color: var(--text-color, #50607a); line-height: 1.6; }
+.ac-card__link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent-color, #2d95eb); text-decoration: none; }
+.ac-card__link:hover { gap: 12px; }
+
+/* Card variant: a list of service links instead of media/desc — e.g. a category
+   overview card ("Family Dentistry" + its services listed underneath). */
+.ac-card--list .ac-card__media,
+.ac-card--list .ac-card__desc { display: none; }
+.ac-card--list .ac-card__links { list-style: none; margin: 0; padding: 0; }
+.ac-card--list .ac-card__links li { margin: 0 0 10px; }
+.ac-card--list .ac-card__links a { color: var(--accent-color); font-weight: 600; text-decoration: none; }
+.ac-card--list .ac-card__links a:hover { text-decoration: underline; }
+
+/* Desktop: full cards in a 3-up grid — panel always shown, no toggle affordance. */
+@media (min-width: 992px) {
+  .ac-card__summary { cursor: default; }
+  .ac-card__arrow { display: none; }
+  .ac-card__panel { display: block; max-height: none; }
+}
+
+/* Mobile/tablet: animated single-open accordion, driven entirely by JS
+   (anchor-nav.js toggles .is-open + sets inline max-height). No checkbox/IDs. */
+@media (max-width: 991px) {
+  .ac-services { grid-template-columns: 1fr; gap: 14px; }
+  .ac-card__panel { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  .ac-card.is-open .ac-card__arrow { transform: rotate(-135deg); }
+}
+
+/* Category hero brief description */
+.page-header-desc { max-width: 760px; margin: 0.5rem auto 1.25rem; text-align: center; color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.7; }
+.page-header-desc p:last-child { margin-bottom: 0; }
+
+/* =======================================================================
+   SERVICE CONTENT — theme checklist + benefits aside image
+   ======================================================================= */
+.wc-checklist { list-style: none; padding: 0; margin: 0 0 1.25rem; display: grid; gap: 12px; }
+.wc-checklist li { display: flex; align-items: flex-start; gap: 12px; line-height: 1.55; }
+.wc-checklist li i { color: var(--accent-color, #225aa1); font-size: 1.1rem; margin-top: 3px; flex: 0 0 auto; }
+.service-benefits { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; margin: 1.25rem 0 2rem; }
+.service-benefits__aside figure { margin: 0; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px rgba(var(--primary-rgb,16,45,82),.12); }
+.service-benefits__aside img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 767px) { .service-benefits { grid-template-columns: 1fr; gap: 20px; } }
+
+/* Alternating aside layout: image on the left for reversed rows */
+.service-benefits--rev .service-benefits__text { order: 2; }
+.service-benefits--rev .service-benefits__aside { order: 1; }
+@media (max-width: 767px) { .service-benefits--rev .service-benefits__text,
+  .service-benefits--rev .service-benefits__aside { order: 0; } }
+
+/* Single float-right image inside service content (text wraps around it) */
+.service-float,
+.service-float.image-anime { float: right; width: 42%; max-width: 440px; margin: 0.5rem 0 1.5rem 2.25rem; border-radius: 18px; overflow: hidden; box-shadow: 0 14px 30px rgba(var(--primary-rgb,16,45,82),.12); }
+.service-float > figure { margin: 0; }
+.service-float img { display: block; width: 100%; height: auto; margin: 0; }
+@media (max-width: 767px) {
+  .service-float,
+  .service-float.image-anime { float: none; width: 100%; max-width: none; margin: 0 0 1.25rem 0; }
+}
+
+/* =======================================================================
+   SERVICE PAGE HERO — Gilbert photo (overrides the shared hero-thumb image
+   from framework.css .page-header). Scoped to the Service Page template so
+   only the 8 service/category pages get this background; the gradient tint,
+   repeat, position and size are inherited from the base .page-header rule.
+   ======================================================================= */
+body.page-template-template-service .page-header {
+  background-image:
+    radial-gradient(
+      ellipse at center,
+      rgba(var(--primary-rgb), 0.7) 0%,
+      rgba(var(--primary-rgb), 0.9) 100%
+    ),
+    var(--bg-service-header);
+}
+
+/* =======================================================================
+   SERVICE-PAGE FAQ — the FAQ accordion lives inside .service-single-content
+   (the post body), not as a standalone section. Strip the full-section
+   vertical padding the .our-faqs wrapper adds; the H2 heading above the
+   accordion already provides the top spacing. The compact, transparent
+   .page-about-faqs.page-service-faqs variant keeps the accordion styling.
+   ======================================================================= */
+.service-single-content .our-faqs.page-service-faqs { padding: 0; background-color: transparent; }
+.service-single-content .our-faqs.page-service-faqs .accordion-list { margin-top: 0; }
+
+
+/* Floating widget — positioning vocabulary for a card/badge pinned over a position:relative
+   parent. LOOK comes from a modifier; each widget keeps its own mobile rules. */
+.floating-widget{ position: absolute; z-index: 2; }
+.floating-widget--bottom-left { bottom: 0; left: 0; }
+.floating-widget--bottom-right{ bottom: 0; right: 0; }
+.floating-widget--mid-left    { top: 50%; left: 0; transform: translateY(-50%); }
+.floating-widget--center      { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.floating-widget--bar         { left: 0; right: 0; bottom: 0; margin: 0 15px; }
+.floating-widget--inflow      { position: relative; margin: -90px 15px 0; }
+.floating-widget--drift       { animation: floating-widget-drift var(--fw-drift-dur, 10s) infinite linear alternate; }
+@keyframes floating-widget-drift{ 50%{ left: var(--fw-drift-distance, 40px); } }
+
+/* Look: white card (reviews badge, rating card). Faithful to the old .expert-doctor card. */
+.floating-widget--card{
+	background-color: var(--white-color);
+	border: 1px solid var(--divider-color);
+	box-shadow: 10px 0px 36.8px -4px #0000001A;
+	border-radius: var(--radius-md);
+	display: flex; align-items: center; justify-content: center;
+	width: 100%; max-width: 300px;
+	padding: 0;
+}
+.floating-widget--card .floating-widget__content{ width: calc(100% - 80px); }
+
+@media (max-width: 767px){
+	/* Only the white-card variant unpinned on mobile historically (expert-doctor). */
+	.floating-widget--card{ position: relative; }
+}

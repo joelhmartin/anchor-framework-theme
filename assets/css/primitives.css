@@ -1,0 +1,365 @@
+/* ============================================================
+ * primitives.css — L2 reusable primitives (loads after framework, before custom).
+ * ============================================================ */
+
+/* Type scale — canonical subtitle (consolidates the per-section .content-subtitle dupes). */
+.u-subtitle,
+.content-subtitle{
+	font-size: var(--fs-subtitle);
+	font-weight: 600;
+	text-transform: capitalize;
+}
+.u-subtitle--inverse{ color: var(--white-color); }
+
+/* Title + display scale — generic aliases for future markup. */
+.u-title  { font-size: var(--fs-title);   font-weight: 700; }
+.u-display{ font-size: var(--fs-display); font-weight: 700; }
+
+@media (max-width: 991px){
+	.u-subtitle,
+	.content-subtitle{ font-size: var(--fs-subtitle-sm); }
+}
+
+/* Card — shared container chrome (consolidates .service-item/.excellence-item/etc.). */
+.ac-panel{
+	background-color: var(--white-color);
+	border: 1px solid var(--divider-color);
+	box-shadow: var(--shadow-card);
+	border-radius: var(--radius-lg);
+	padding: 40px;
+}
+.ac-panel--center { text-align: center; }
+.ac-panel--flush  { padding: 0; }
+.ac-panel--pad-sm { padding: 30px; }
+.ac-panel--pad-xs { padding: 20px; }
+
+/* Media frame — rounded, cropped image container. Per-element aspect-ratio stays on the
+   element (content-specific); set it inline as `style="--media-ratio: 1 / 1.12"` or keep the
+   element's existing aspect-ratio rule. */
+.media{ overflow: hidden; border-radius: var(--radius-lg); }
+.media, .media > figure, .media > a{ display: block; }
+.media > figure{ margin: 0; }
+.media img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.media--radius-md{ border-radius: var(--radius-md); }
+.media--zoom img{ transition: transform 0.5s ease-in-out; }
+.media--zoom:hover img{ transform: scale(1.1); }
+
+/* Icon badge — accent square holding an icon, with a scale-in hover fill.
+   The fill TRIGGER stays on the consuming component (e.g. .cta-item:hover .icon-box::before);
+   keep the element's .icon-box class for that. Default: 50px / radius-sm / primary fill. */
+.icon-badge{
+	position: relative;
+	width: 50px; height: 50px;
+	border-radius: var(--radius-sm);          /* 10px */
+	background-color: var(--accent-color);
+	display: flex; align-items: center; justify-content: center;
+	overflow: hidden;
+	transition: all 0.5s ease-in-out;
+}
+.icon-badge::before{
+	content: '';
+	position: absolute; inset: 0;
+	background: var(--primary-color);
+	border-radius: inherit;
+	transform: scale(0);
+	transition: all 0.4s ease-in-out;
+}
+.icon-badge img{ position: relative; z-index: 1; max-width: 35px; transition: all 0.3s ease-in-out; }
+.icon-badge--lg{ width: 70px; height: 70px; border-radius: var(--radius-md); }  /* 15px */
+.icon-badge--fill-white::before{ background: var(--white-color); }
+
+/* =========================================================================
+   Section spacing system — moved here from framework.css (Phase 8).
+   .section sets padding via CSS custom properties; modifiers override per-axis.
+   ========================================================================= */
+/* =========================================================================
+   Reusable section utilities  (additive — existing section-name classes are
+   left as-is; opt new/migrated sections into these instead of baking spacing
+   and colors into a per-section name).
+
+   MENTAL MODEL: the outermost section <div> carries BEHAVIOR (spacing +
+   inverse text); LAYOUT lives in inner classes (.how-work-image, columns…).
+
+   SPACING — .section reads the --section-space* scale. Top and bottom are
+   independently overridable, so asymmetric sections work:
+       100 / 100  ->  class="section"
+        50 / 100  ->  class="section section--pt-sm"
+        50 /  70  ->  class="section section--pt-sm section--pb-md"
+       100 /  70  ->  class="section section--pb-md"
+       100 /   0  ->  class="section section--pb-0"
+
+   INVERSE — .section--inverse defaults child text to white for dark/image
+   backgrounds (the reusable form of the per-name .why-choose-content rule).
+   Scoped to text elements only, so buttons and form fields are untouched.
+   ========================================================================= */
+.section{
+	padding-top:    var(--section-pt, var(--section-space));
+	padding-bottom: var(--section-pb, var(--section-space));
+}
+
+.section--pt-md { --section-pt: var(--section-space-md); }
+.section--pt-sm { --section-pt: var(--section-space-sm); }
+.section--pt-xs { --section-pt: var(--section-space-xs); }
+.section--pt-2xs{ --section-pt: var(--section-space-2xs); }
+.section--pt-0  { --section-pt: 0; }
+.section--pb-md { --section-pb: var(--section-space-md); }
+.section--pb-sm { --section-pb: var(--section-space-sm); }
+.section--pb-xs { --section-pb: var(--section-space-xs); }
+.section--pb-2xs{ --section-pb: var(--section-space-2xs); }
+.section--pb-0  { --section-pb: 0; }
+.section--muted { background-color: var(--secondary-color); }
+
+.section--inverse :is(.eyebrow-text, .content-header, h1, h2, h3, h4, h5, h6, p, li, a:not(.btn-default)){
+	color: var(--white-color);
+}
+/* Dark-background eyebrow: white text + inverted accent mark. This is the
+   canonical mechanism for dark/image sections (mirrors .why-choose-content).
+   The legacy element-level helper .eyebrow-text.light is folded in here so both
+   share ONE mechanism — use .section--inverse on the wrapper; reach for
+   .eyebrow-text.light only when a single eyebrow sits on a dark background
+   outside a .section--inverse wrapper. */
+.section--inverse .eyebrow-text,
+.eyebrow-text.light{
+	color: var(--white-color);
+}
+.section--inverse .eyebrow-text::before,
+.eyebrow-text.light::before{
+	filter: brightness(0) invert(1);
+}
+
+/* Headings use the admin "Heading" font (the theme's heading classes are
+   tag-agnostic: .section-title / .hero-header). */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.hero-header {
+	font-family: var(--heading-font);
+}
+
+/* =========================================================================
+   Accordion list primitive — moved here from framework.css (Phase 8).
+   Base: rounded accordion with accent-color header.
+   --bordered: visible border per item.
+   --plain: flat numbered list layout.
+   ========================================================================= */
+.accordion-list .accordion-item{
+	border-radius: 20px;
+	margin-bottom: 25px;
+    padding: 0;
+	transition: all 0.3s ease-in-out;
+	overflow: hidden;
+}
+
+.accordion-list .accordion-item:last-child{
+	margin-bottom: 0;
+}
+
+.accordion-list .accordion-header .accordion-button{
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.2em;
+	background-color: var(--accent-color);
+	color: var(--white-color);
+	padding: 20px 50px 20px 20px;
+	transition: all 0.3s ease-in-out;
+}
+
+.accordion-list .accordion-button:not(.collapsed){
+   background-color: var(--accent-color);
+   color: var(--white-color);
+   border-bottom: 1px solid var(--dark-divider-color);
+}
+
+.accordion-list .accordion-header .accordion-button.collapsed{
+	background-color: var(--white-color);
+	color: var(--primary-color);
+}
+
+.accordion-list .accordion-item .accordion-button::after,
+.accordion-list .accordion-item .accordion-button.collapsed::after{
+	content: '\f068';
+	font-family: "Font Awesome 6 Free";
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	bottom: auto;
+	transform: translate(0px, -10px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 900;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 5px;
+	color: var(--white-color);
+}
+
+.accordion-list .accordion-item .accordion-button.collapsed::after{
+	content: '\f067';
+	color: var(--primary-color);
+}
+
+.accordion-list .accordion-item .accordion-body{
+	background-color: var(--accent-color);
+	padding: 20px 50px 20px 20px;
+}
+
+.accordion-list .accordion-item .accordion-body p{
+    color: var(--white-color);
+	margin: 0;
+}
+
+/* --bordered: adds a visible border on each accordion item */
+.accordion-list--bordered .accordion-item{
+	border: 1px solid var(--divider-color);
+}
+
+/* --plain: flat list layout — numbered span on left, +/- icon on right, bottom-border separators */
+.accordion-list--plain .accordion-item{
+	border-radius: 0;
+	overflow: visible;
+	margin-bottom: 30px;
+	padding: 0 0 30px 0;
+	background-color: var(--white-color);
+	border-bottom: 1px solid var(--divider-color);
+}
+
+.accordion-list--plain .accordion-item:last-child{
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border: none;
+}
+
+.accordion-list--plain .accordion-header .accordion-button{
+	font-size: 20px;
+	font-weight: 600;
+	line-height: normal;
+	background-color: transparent;
+	color: var(--primary-color);
+	padding: 0px 25px 0 45px;
+	border: none;
+	position: relative;
+	transition: all 0.3s ease-in-out;
+}
+
+.accordion-list--plain .accordion-header .accordion-button span{
+	position: absolute;
+    left: 0;
+    top: -3px;
+    bottom: auto;
+    transform: translateY(50%);
+    font-size: 20px;
+    line-height: 1em;
+    color: var(--primary-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.accordion-list--plain .accordion-button:not(.collapsed) span{
+	color: var(--primary-color);
+}
+
+.accordion-list--plain .accordion-button:not(.collapsed){
+   background-color: transparent;
+   color: var(--primary-color);
+   border-bottom: none;
+}
+
+.accordion-list--plain .accordion-header .accordion-button.collapsed{
+	background-color: transparent;
+	color: var(--primary-color);
+}
+
+.accordion-list--plain .accordion-item .accordion-button::after,
+.accordion-list--plain .accordion-item .accordion-button.collapsed::after{
+    content: '\f068';
+	font-family: "Font Awesome 6 Free";
+	position: absolute;
+	right: 0;
+	top: 50%;
+	bottom: auto;
+	transform: translate(0px, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 900;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	padding: 0px;
+	color: var(--primary-color);
+}
+
+.accordion-list--plain .accordion-item .accordion-button.collapsed::after{
+    content: '\f067';
+	color: var(--primary-color);
+}
+
+.accordion-list--plain .accordion-item .accordion-body{
+	background-color: transparent;
+	padding: 20px 25px 0px 45px;
+}
+
+.accordion-list--plain .accordion-item .accordion-body p{
+    color: var(--text-color);
+	margin-bottom: 20px;
+}
+
+.accordion-list--plain .accordion-item .accordion-body p:last-child{
+	margin-bottom: 0;
+}
+
+@media only screen and (max-width: 991px){
+	.accordion-list--plain .accordion-item{
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	}
+
+	.accordion-list--plain .accordion-header .accordion-button{
+		padding: 0px 25px 0 35px;
+	}
+
+	.accordion-list--plain .accordion-item .accordion-body{
+		padding: 10px 25px 0px 35px;
+	}
+
+	.accordion-list .accordion-header .accordion-button{
+		padding: 15px 45px 15px 15px;
+	}
+
+	.accordion-list .accordion-item .accordion-body{
+		padding: 15px 45px 15px 15px;
+	}
+
+	.accordion-list .accordion-item .accordion-button::after,
+	.accordion-list .accordion-item .accordion-button.collapsed::after{
+		right: 15px;
+	}
+}
+
+@media only screen and (max-width: 767px){
+	.accordion-list--plain .accordion-item{
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+    }
+
+	.accordion-list--plain .accordion-header .accordion-button{
+		font-size: 18px;
+        padding: 0px 25px 0 25px;
+    }
+
+	.accordion-list--plain .accordion-header .accordion-button span{
+		font-size: 18px;
+	}
+
+	.accordion-list--plain .accordion-item .accordion-body{
+        padding: 10px 0px 0px 25px;
+    }
+
+	.accordion-list .accordion-header .accordion-button{
+		font-size: 18px;
+	}
+
+	.accordion-list .accordion-item .accordion-body{
+		padding: 15px;
+	}
+}

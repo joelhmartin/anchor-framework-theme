@@ -1,0 +1,13 @@
+/*
+Theme Name: Anchor Framework
+Theme URI: https://anchorcorps.com
+Author: Anchor Corps
+Author URI: https://anchorcorps.com
+Description: Brand-agnostic parent theme (engine) behind Anchor Corps vertical child themes. Page content is raw HTML edited in Monaco; brand, colors and typography are admin-editable via Anchor Site Config. Not intended to be activated directly — use a vertical child theme (e.g. Home Services Modern).
+Version: 1.2.0
+Requires at least: 6.0
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: anchor-framework
+*/
