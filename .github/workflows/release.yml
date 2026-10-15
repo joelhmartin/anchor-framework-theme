@@ -27,6 +27,11 @@ jobs:
       - name: Lint PHP
         run: find . -name '*.php' -not -path './inc/vendor/*' -print0 | xargs -0 -n1 php -l > /dev/null
 
+      - name: No duplicate function names
+        run: |
+          dups=$(grep -rhoE '^\s*function\s+[a-zA-Z0-9_]+' --include='*.php' --exclude-dir=vendor . | awk '{print $2}' | sort | uniq -d)
+          [ -z "$dups" ] || { echo "::error::functions declared twice: $dups"; exit 1; }
+
       - name: Build anchor-framework.zip
         run: |
           stage="$(mktemp -d)/anchor-framework"
